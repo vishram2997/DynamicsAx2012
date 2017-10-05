@@ -1,0 +1,52 @@
+static void GetAllElement(Args _args)
+{
+    ProjName        projName = "DDMATables";
+
+  ProjectListNode   list = infolog.projectRootNode().AOTfindChild("Shared");
+
+  TreeNodeIterator  ir = list.AOTiterator();
+  ProjectNode      pnProj;
+  ProjectNode      pn = list.AOTfindChild(projName);
+
+  void searchAllObj(projectNode rootNode)
+  {
+    #TreeNodeSysNodeType
+
+    TreeNode          childNode;
+    TreeNodeIterator      rootNodeIterator;
+    ;
+
+    if (rootNode)
+    {
+      rootNodeIterator = rootNode.AOTiterator();
+      childNode = rootNodeIterator.next();
+      while (childnode)
+      {
+
+         searchAllObj(childNode);
+
+            if ( childNode.AOTparent().AOTname() == "Fields")
+            {
+              if(childNode.AOTgetProperty("Type")=="Enum")
+              
+              info(strfmt("%1,%2,%3,%4", childNode.AOTparent().AOTparent().AOTname(),childNode.AOTname(),childNode.AOTgetProperty("Type"),childNode.AOTgetProperty("EnumType")));
+             else
+                 info(strfmt("%1,%2,%3,%4", childNode.AOTparent().AOTparent().AOTname(),childNode.AOTname(),childNode.AOTgetProperty("Type"),childNode.AOTgetProperty("ExtendedDataType")));
+                    
+             }
+        childNode = rootNodeIterator.next();
+      }
+    }
+  }
+  ;
+
+  if (pn)
+  {
+    info(strFmt("Project %1:", projName));
+    pnProj = pn.loadForInspection();
+    searchAllObj(pnProj);
+    pnproj.treeNodeRelease();
+  }
+  else
+    info("Projet objects");
+}
